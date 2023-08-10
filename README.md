@@ -15,7 +15,7 @@ https://epicarts.tistory.com/98
 
 [BOJ_20056 마법사 상어와 파이어볼](https://www.acmicpc.net/problem/20056)
 
-[BOJ_마법사 상어와 토네이도](https://www.acmicpc.net/problem/20057)
+[BOJ_20057 마법사 상어와 토네이도](https://www.acmicpc.net/problem/20057)
 
 [BOJ_20058 마법사 상어와 파이어스톰](https://www.acmicpc.net/problem/20058)
 
