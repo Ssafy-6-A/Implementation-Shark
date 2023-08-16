@@ -1,9 +1,11 @@
-package algo.week4;
+package algostudy.week4;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.StringTokenizer;
 
 /*
@@ -41,7 +43,7 @@ public class BOJ_20058_마상파이어스톰 {
         int q = Integer.parseInt(st.nextToken());
 
         int boxSize = 1<<n;
-        int arr[][] = new int[boxSize][boxSize];
+        int[][] arr = new int[boxSize][boxSize];
         for(int i=0; i<boxSize; i++) {
             st = new StringTokenizer(br.readLine());
             for(int j=0; j<boxSize; j++)
@@ -100,7 +102,7 @@ public class BOJ_20058_마상파이어스톰 {
                     arr[i][j] = tempMovedBox[i][j];
             }
         }
-        System.out.println(Arrays.deepToString(arr));
+        //System.out.println(Arrays.deepToString(arr));
         // 결과값 도출
         // 1. 남아있는 얼음 A[r][c]의 합
         int sum = 0;
@@ -110,41 +112,37 @@ public class BOJ_20058_마상파이어스톰 {
         }
         System.out.println(sum);
 
-        // 2. 남아있는 얼음 중 가장 큰 덩어리가 차지하는 칸의 개수
-        // 오른쪽 방향 먼저 탐색 방향: ㅡ, ㄱ, ㅠ 등
-        // 아래 방향 먼저 탐색 방향: ㅣ, ㅏ, ㅑ 등
-        boolean isVisited[][] = new boolean[boxSize][boxSize];
-        int maxIce = 0;
+        // 2. 남아있는 얼음 중 가장 큰 덩어리가 차지하는 칸의 개수 - BFS
+        Queue<int[]> queue = new LinkedList<int[]>();
+        boolean[][] isVisited = new boolean[boxSize][boxSize];
+        int maxBlock = 0;
         for(int i=0; i<boxSize; i++) {
             for(int j=0; j<boxSize; j++) {
-                int[][] deltas = {{1,0},{0,1}}; // 탐색은 우, 하 방향으로만!
-                int iceSum = 0;
-                if(arr[i][j]>0 && !isVisited[i][j]) {
-                    isVisited[i][j]=true;
-                }
-            }
-        }
-        /*
-        for(int i=0; i<boxSize; i++) {
-            for(int j=0; j<boxSize; j++) {
-                int[][] deltas = {{-1,0},{1,0},{0,-1},{0,1}};
-                int iceSum = 0;
-                if(arr[i][j]>0) {
+                int blocksize = 0;
+                if(!isVisited[i][j]&&arr[i][j]>0) { // 확인하지 않은 얼음칸 확인
+                    blocksize++;
                     isVisited[i][j] = true;
-                    for(int d=0; d<4; d++) {
-                        int dx = i+deltas[d][0];
-                        int dy = j+deltas[d][1];
-                        if(dx>=0&&dx<boxSize&&dy>=0&&dy<boxSize) {
-                            if(arr[dx][dy]==0) continue;
+                    int[] pos = {i,j}; // 확인하지 않은 얼음칸 위치
+                    queue.add(pos);
+                    int[][] deltas = {{-1,0},{1,0},{0,-1},{0,1}};
+                    while(!queue.isEmpty()) {
+                        int[] curPos = queue.poll();
+                        for(int d=0; d<4; d++) { // 인접 칸 탐색
+                            int dx = curPos[0]+deltas[d][0];
+                            int dy = curPos[1]+deltas[d][1];
+                            if(dx>=0&&dx<boxSize&&dy>=0&&dy<boxSize&&!isVisited[dx][dy]&&arr[dx][dy]>0) { // 범위 내에 방문하지 않은 얼음칸을 방문한 경우
+                                blocksize++;
+                                isVisited[dx][dy] = true;
+                                int[] newNode = {dx,dy};
+                                queue.add(newNode); // 탐색 위치 큐에 넣고 다시 탐색
+                            }
                         }
-                        else continue; // 범위 밖으로 나가면 다른 방향 탐색
                     }
                 }
-                if(maxIce<iceSum)
-                    maxIce = iceSum;
+                maxBlock = Math.max(maxBlock, blocksize);
             }
         }
-        */
-    }
+        System.out.println(maxBlock);
 
+    }
 }
