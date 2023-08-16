@@ -27,7 +27,7 @@ class Student implements Comparable<Student>{
 	}
 	
 	@Override
-	public int compareTo(Student o) {
+	public int compareTo(Student o) {	// 좋아하는 수랑 비어있는 칸 비교
 		if(this.likeCnt != o.likeCnt) return o.likeCnt - this.likeCnt;
 		
 		if(this.emptyCnt != o.emptyCnt) return o.emptyCnt - this.emptyCnt;
@@ -38,7 +38,7 @@ class Student implements Comparable<Student>{
 	}
 }
 
-class Node{
+class Node{	//솔직히 얘는 생각이 꼬여서 만들었는데 필요가 없어서 설명을 생략하겠습니다.
     int num;
     ArrayList<Integer>list;
     Node(int num, ArrayList<Integer>list){
@@ -53,8 +53,8 @@ public class BOJ_21608_상어초등학교 {
 	static final int[] dy = {0,0,-1,1};
 	static int[][] map;
 	
-	static ArrayList<Node> list[];
-	static HashMap<Integer,ArrayList<Integer>>hashmap = new HashMap<>();
+	static ArrayList<Node> list[];	
+	static HashMap<Integer,ArrayList<Integer>>hashmap = new HashMap<>();	//학생의 번호, 좋아하는 학생의 번호를 담는 리스트를 담는 hashmap
 	
 	static int answer = 0;
 	public static void main(String[] args) throws IOException {
@@ -67,7 +67,7 @@ public class BOJ_21608_상어초등학교 {
             list[i] = new ArrayList<>();
         }
         
-        for(int i=1; i<=n; i++) {
+        for(int i=1; i<=n; i++) {	//map을 -1로 채워주기
             Arrays.fill(map[i], -1);
         }
         
@@ -76,10 +76,10 @@ public class BOJ_21608_상어초등학교 {
             int num = Integer.parseInt(st.nextToken());
             ArrayList<Integer>tmp = new ArrayList<>();
             for(int j=1; j<=4; j++) {
-                tmp.add(Integer.parseInt(st.nextToken()));
+                tmp.add(Integer.parseInt(st.nextToken()));	//4개씩 넣어주기
             }
-            list[i].add(new Node(num,tmp));
-            hashmap.put(num, tmp);
+            list[i].add(new Node(num,tmp));	
+            hashmap.put(num, tmp);	//hashmap에 학생의 번호와 좋아하는 학생의 번호를 담은 리스트 추가
         }
         
         for(int i=0; i<n*n; i++) {
@@ -91,7 +91,8 @@ public class BOJ_21608_상어초등학교 {
         System.out.println(answer);
 
 	}
-	
+
+	//각 함수마다 find해주기
 	private static void find(int num, ArrayList<Integer>solveList) {
 		ArrayList<Student> one = new ArrayList<Student>();
 		
@@ -99,7 +100,8 @@ public class BOJ_21608_상어초등학교 {
 			for(int j=1;j<=n;j++) {
 				int likeCnt = 0;
 				int emptyCnt = 0;
-				
+
+				//빈칸이면 넘어가고
 				if(map[i][j]!=-1) continue;
 				for(int d=0;d<4;d++) {
 					int nr = i+dx[d];
@@ -118,7 +120,8 @@ public class BOJ_21608_상어초등학교 {
 		map[a.r][a.c]=num;
 
 	}
-	
+
+//만족도 구하는 함수
 	private static void getHappiness() {
 		for(int i=1; i<=n; i++) {
             for(int j=1; j<=n; j++) {
@@ -152,13 +155,15 @@ public class BOJ_21608_상어초등학교 {
             }
         }
 	}
-	
+
+//인접한 빈칸 구하는 함수
 	private static int getEmptyCnt(int r, int c) {
 		int cnt = 0;
 		for(int d = 0;d<4;d++) {
 			int nr = r+dx[d];
 			int nc = c+dy[d];
-			
+
+			//범위 안이고 맵의 값이 -1이면 빈칸 수 증가
 			if(isInRange(nr, nc)&&map[nr][nc]==-1)cnt++;											
 		}
 		
