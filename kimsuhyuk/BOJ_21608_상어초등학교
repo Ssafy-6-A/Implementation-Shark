@@ -93,19 +93,21 @@ public class BOJ_21608_상어초등학교 {
 	}
 
 	//각 함수마다 find해주기
+	//최적의 자리를 찾는 함수
 	private static void find(int num, ArrayList<Integer>solveList) {
 		ArrayList<Student> one = new ArrayList<Student>();
 		
 		for(int i=1;i<=n;i++) {
 			for(int j=1;j<=n;j++) {
-				int likeCnt = 0;
-				int emptyCnt = 0;
+				int likeCnt = 0;	// 현재 칸에서 좋아하는 친구 수
+				int emptyCnt = 0;	// 현재 칸에서 비어있는 친구 수
 
 				//빈칸이면 넘어가고
 				if(map[i][j]!=-1) continue;
 				for(int d=0;d<4;d++) {
 					int nr = i+dx[d];
 					int nc = j+dy[d];
+
 					
 					if(isInRange(nr, nc) && solveList.contains(map[nr][nc]))likeCnt++;
 				}
@@ -114,7 +116,8 @@ public class BOJ_21608_상어초등학교 {
 				one.add(new Student(i, j,likeCnt, emptyCnt));
 			}
 		}
-		
+
+		//sort해서 likeCnt가 높은애 가져오기
 		Collections.sort(one);
 		Student a = one.get(0);
 		map[a.r][a.c]=num;
