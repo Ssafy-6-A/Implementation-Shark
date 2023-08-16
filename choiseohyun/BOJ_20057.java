@@ -89,7 +89,7 @@ public class Main {
 		//모래가 흩뿌려지는 9개 좌표 모두 순회
 		for(int i=0; i<9; i++) {
 			int nnx = x + spreadX[dir][i];
-			int nny = x + spreadY[dir][i];
+			int nny = y + spreadY[dir][i];
 			
 			if(nnx<0 || nny<0 || nnx>=N || nny>=N) answer+=curr*percent[i]/100; //맵의 바깥이라면 answer에 누적
 			else sand[nnx][nny] += curr*percent[i]/100; //흩뿌려진 모래 더해줌
